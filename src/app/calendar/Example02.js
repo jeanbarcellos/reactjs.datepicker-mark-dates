@@ -63,10 +63,6 @@ const Example02 = () => {
     console.log('onOpenPicker')
   }
 
-  const onPickerViewChange = date => {
-    console.log('onPickerViewChange', date)
-  }
-
   const renderDayInPicker = (
     date,
     selectedDate,

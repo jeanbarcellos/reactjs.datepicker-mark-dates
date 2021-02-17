@@ -6,15 +6,8 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector'
 import TimelineContent from '@material-ui/lab/TimelineContent'
 import TimelineDot from '@material-ui/lab/TimelineDot'
 // import history from '@history'
-import {
-  Avatar,
-  Icon,
-  IconButton,
-  makeStyles,
-  Typography
-} from '@material-ui/core'
+import {Avatar, Icon, IconButton, makeStyles, Typography } from '@material-ui/core'
 import moment from 'moment'
-import { getNameOfdaysOfWeek } from './helpersCalendar'
 
 const convertFloatToStringDecimal = (input, toFixed = 2) => {
   const options = {
@@ -73,7 +66,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold'
   },
   weekText: {
-    paddingTop: '10px'
+    paddingTop: '10px',
+    textTransform: 'capitalize'
   },
   avatar: {
     width: '50px',
@@ -116,7 +110,7 @@ const TimelineWeek = props => {
                 component='h1'
                 className={classes.weekText}
               >
-                {getNameOfdaysOfWeek(object.date)}
+                {moment(object.date).utc(false).format('dddd')}
               </Typography>
             </TimelineContent>
           </TimelineItem>

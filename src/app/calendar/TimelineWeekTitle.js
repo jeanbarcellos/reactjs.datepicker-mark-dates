@@ -1,11 +1,6 @@
 import React from 'react'
 import { Icon, IconButton, Typography } from '@material-ui/core'
 import moment from 'moment'
-import {
-  getStartDateOfWeek,
-  getFinishDateOfWeek,
-  getNameOfMonth
-} from './helpersCalendar'
 
 const TimelineWeekTitle = props => {
   const { date, setDate, type } = props

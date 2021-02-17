@@ -166,8 +166,8 @@ export const getEventsGroupByDateAndShow = (
   date = moment(new Date()),
   show = 'week'
 ) => {
-  if (!_.includes(['day', 'mouth', 'year'], show)) {
-    throw 'Tipo deve ser: [day, mouth, year]'
+  if (!_.includes(['day', 'week', 'mouth', 'year'], show)) {
+    throw 'Tipo deve ser: [day, week, mouth, year]'
   }
 
   const fromDate = date.clone().startOf(show).utc(false).toDate()
