@@ -60,22 +60,11 @@ const Example02 = () => {
   }
 
   const onOpenPicker = () => {
-    // onPickerViewChange(selectedDate)
     console.log('onOpenPicker')
   }
 
   const onPickerViewChange = date => {
     console.log('onPickerViewChange', date)
-    // const variables = {
-    //   fromDate: date.clone().startOf('month').format('YYYY-MM-DD'),
-    //   toDate: date.clone().endOf('month').format('YYYY-MM-DD')
-    // }
-    // setCollection(
-    //   dataFake.map(day => {
-    //     console.log(day)
-    //     return moment(day).format('YYYY-MM-DD')
-    //   })
-    // )
   }
 
   const renderDayInPicker = (
@@ -109,11 +98,14 @@ const Example02 = () => {
             value={selectedDate}
             onChange={onChange}
             showTodayButton
-            // disableToolbar
           />
         </div>
         <div className='flex-1 pl-8'>
-          <TimelineWeekTitle date={selectedDate} setDate={setSelectedDate} />
+          <TimelineWeekTitle
+            date={selectedDate}
+            setDate={setSelectedDate}
+            type='day'
+          />
           <TimelineWeek data={dataFiltered} />
         </div>
       </div>

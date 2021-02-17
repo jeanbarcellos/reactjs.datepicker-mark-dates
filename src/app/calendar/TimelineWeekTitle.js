@@ -1,46 +1,41 @@
 import React from 'react'
 import { Icon, IconButton, Typography } from '@material-ui/core'
 import moment from 'moment'
-import { getStartDateOfWeek, getFinishDateOfWeek, getNameOfMonth } from './helpersCalendar'
+import {
+  getStartDateOfWeek,
+  getFinishDateOfWeek,
+  getNameOfMonth
+} from './helpersCalendar'
 
 const TimelineWeekTitle = props => {
-  const { date, setDate } = props
+  const { date, setDate, type } = props
 
-  const dateNow = moment(date).utc(false).toDate()
-  const dateInit = getStartDateOfWeek(dateNow)
-  const dateFinish = getFinishDateOfWeek(dateNow)
+  const dateNow = date.utc(false)
+  const dateInit = date.clone().startOf(type)
+  const dateFinish = date.clone().endOf(type)
 
   const handlePage = num => () => {
-    const dateTemp = getStartDateOfWeek(moment(date).utc(false).toDate())
+    const dateTemp = date.clone().startOf(type).utc(false)
+
     if (num <= 0) {
-      dateTemp.setDate(dateTemp.getDate() - 1)
+      dateTemp.subtract(1, type)
     } else {
-      dateTemp.setDate(dateTemp.getDate() + 7)
+      dateTemp.add(1, type)
     }
 
-    setDate(moment(dateTemp).utc(false).format('YYYY-MM-DD'))
+    setDate(dateTemp)
   }
 
   const titulo = () => {
-    if (dateInit.getMonth() === dateFinish.getMonth()) {
-      return (
-        dateInit.getDate().toString().padStart(2, '0') +
-        ' - ' +
-        dateFinish.getDate().toString().padStart(2, '0') +
-        ' de ' +
-        getNameOfMonth(dateFinish)
-      )
+    if (type === 'day') {
+      return dateNow.format('DD [de] MMMM')
     }
 
-    return (
-      dateInit.getDate().toString().padStart(2, '0') +
-      '/' +
-      getNameOfMonth(dateInit, 3) +
-      ' - ' +
-      dateFinish.getDate().toString().padStart(2, '0') +
-      ' de ' +
-      getNameOfMonth(dateFinish)
-    )
+    if (dateInit.format('MM') === dateFinish.format('MM')) {
+      return dateInit.format('DD') + ' - ' + dateFinish.format('DD [de] MMMM')
+    }
+
+    return dateInit.format('DD/MMM') + ' - ' + dateFinish.format('DD/MMM')
   }
 
   return (
@@ -58,6 +53,12 @@ const TimelineWeekTitle = props => {
       </div>
     </div>
   )
+}
+
+TimelineWeekTitle.defaultProps = {
+  date: moment().utc(false),
+  setDate: () => {},
+  type: 'week'
 }
 
 export default TimelineWeekTitle

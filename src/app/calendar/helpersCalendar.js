@@ -152,8 +152,8 @@ export const getEventsGroupByDateAndShowByYear = (
   dataset = [],
   date = moment(new Date())
 ) => {
-  const fromDate = date.clone().startOf('yarn').utc(false).toDate()
-  const toDate = date.clone().endOf('yarn').utc(false).toDate()
+  const fromDate = date.clone().startOf('year').utc(false).toDate()
+  const toDate = date.clone().endOf('year').utc(false).toDate()
 
   return getEventsGroupByDate(dataset).filter(item => {
     const dateTemp = moment(item.date).utc(false).toDate()
@@ -166,6 +166,10 @@ export const getEventsGroupByDateAndShow = (
   date = moment(new Date()),
   show = 'week'
 ) => {
+  if (!_.includes(['day', 'mouth', 'year'], show)) {
+    throw 'Tipo deve ser: [day, mouth, year]'
+  }
+
   const fromDate = date.clone().startOf(show).utc(false).toDate()
   const toDate = date.clone().endOf(show).utc(false).toDate()
 

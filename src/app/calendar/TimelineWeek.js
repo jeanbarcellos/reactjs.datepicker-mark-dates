@@ -153,13 +153,17 @@ const TimelineWeek = props => {
                     </Typography>
                     <div className='mr-16 text-xs'>
                       Vencimento: <br />{' '}
-                      <b>{moment(new Date(item.date)).utc(false).format('L')}</b>
+                      <b>
+                        {moment(new Date(item.date)).utc(false).format('L')}
+                      </b>
                     </div>
                     <div className='mr-0 text-xs'>
                       Pagamento: <br />{' '}
                       <b>
                         {item.paymentDate
-                          ? moment(new Date(item.paymentDate)).utc(false).format('L')
+                          ? moment(new Date(item.paymentDate))
+                              .utc(false)
+                              .format('L')
                           : '-'}
                       </b>
                     </div>
