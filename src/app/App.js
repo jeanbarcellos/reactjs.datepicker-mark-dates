@@ -1,6 +1,5 @@
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
-import '../styles/App.css'
 import Content from './Content'
 
 import 'moment/locale/pt-br'
