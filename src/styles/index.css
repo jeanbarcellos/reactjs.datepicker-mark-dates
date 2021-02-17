@@ -1,6 +1,6 @@
 @import-normalize ;
 
-@import 'tailwind.css';
+@import 'tailwind-base.css';
 
 body {
   margin: 0;
@@ -15,3 +15,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+@import 'tailwind.css';

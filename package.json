@@ -13,15 +13,19 @@
     "@testing-library/user-event": "^12.1.10",
     "lodash": "4.17.15",
     "moment": "2.26.0",
+    "purgecss": "1.4.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.2",
-    "tailwindcss": "^2.0.3",
+    "tailwindcss": "1.4.6",
+    "tailwindcss-dir": "4.0.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "yarn run tailwind && react-scripts start",
+    "build": "yarn run tailwind && yarn run tailwind-purge && cross-env GENERATE_SOURCEMAP=false react-scripts build",
+    "tailwind": "tailwind build ./src/styles/tailwind-config.css -c ./tailwind.config.js -o ./src/styles/tailwind.css",
+    "tailwind-purge": "node ./tailwind-purge.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
