@@ -5,42 +5,11 @@ import TimelineSeparator from '@material-ui/lab/TimelineSeparator'
 import TimelineConnector from '@material-ui/lab/TimelineConnector'
 import TimelineContent from '@material-ui/lab/TimelineContent'
 import TimelineDot from '@material-ui/lab/TimelineDot'
-// import history from '@history'
-import {Avatar, Icon, IconButton, makeStyles, Typography } from '@material-ui/core'
+import { Avatar, Icon, IconButton, makeStyles, Typography } from '@material-ui/core'
 import moment from 'moment'
-
-const convertFloatToStringDecimal = (input, toFixed = 2) => {
-  const options = {
-    style: 'decimal',
-    currency: 'BRL',
-    minimumFractionDigits: toFixed
-  }
-
-  return input.toLocaleString('pt-BR', options)
-}
-
-const generateGUID = () => {
-  function S4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1)
-  }
-
-  return S4() + S4()
-}
+import { convertFloatToStringDecimal, generateGUID } from './helpers'
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: '6px 16px'
-  },
-  secondaryTail: {
-    backgroundColor: theme.palette.secondary.main
-  },
-  missingOppositeContent: {
-    // "&:before": {
-    //   display: "none"
-    // }
-  },
   timeline: {
     '& .MuiTimelineSeparator-root': {
       flex: 'none',
@@ -83,7 +52,7 @@ const TimelineWeek = props => {
   const classes = useStyles()
 
   const handleGoTo = item => () => {
-    // history.push(item.url)
+    console.log('handleGoTo', item)
   }
 
   return (

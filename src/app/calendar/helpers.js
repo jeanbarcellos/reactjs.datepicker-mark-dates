@@ -1,99 +1,25 @@
 import moment from 'moment'
 import _ from 'lodash'
 
-export const namesOfdaysOfWeek = [
-  'Domingo',
-  'Segunda-feira',
-  'Terça-feira',
-  'Quarta-feira',
-  'Quinta-feira',
-  'Sexta-feira',
-  'Sábado'
-]
-
-export const namesOfMonths = [
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro'
-]
-
-export const getNameOfdaysOfWeek = (date, length = null) => {
-  let num = 0
-  if (!(date instanceof Date)) {
-    date = moment(date).utc(false).toDate()
+export const convertFloatToStringDecimal = (input, toFixed = 2) => {
+  const options = {
+    style: 'decimal',
+    currency: 'BRL',
+    minimumFractionDigits: toFixed
   }
 
-  num = date.getDay()
+  return input.toLocaleString('pt-BR', options)
+}
 
-  if (length === null) {
-    return namesOfdaysOfWeek[num]
+export const generateGUID = () => {
+  function S4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1)
   }
-  return namesOfdaysOfWeek[num].substr(0, length)
+
+  return S4() + S4()
 }
-
-export const getNameOfdaysOfWeekByNumber = number => {
-  return namesOfdaysOfWeek[number]
-}
-
-export const getNameOfMonth = (date, length = null) => {
-  let num = date.getMonth()
-
-  if (length === null) {
-    return namesOfMonths[num]
-  }
-  return namesOfMonths[num].substr(0, length)
-}
-
-export const formatDate = date => {
-  let numMonth = 0
-  if (date instanceof Date) {
-    numMonth = date.getMonth()
-  }
-  const month = numMonth + 1
-
-  return (
-    date.getFullYear() +
-    '-' +
-    month.toString().padStart(2, '0') +
-    '-' +
-    date.getDate().toString().padStart(2, '0')
-  )
-}
-
-export const getStartDateOfWeek = date => {
-  const dateInit = new Date(date.getTime())
-  dateInit.setDate(dateInit.getDate() - date.getDay())
-  return dateInit
-}
-
-export const getFinishDateOfWeek = date => {
-  const dateFim = new Date(date.getTime())
-  dateFim.setDate(date.getDate() + (6 - date.getDay()))
-  return dateFim
-}
-
-export const datesOfWeek = date => {
-  const dateInit = getStartDateOfWeek(date)
-
-  const showDates = []
-  for (var i = 0; i <= 6; i++) {
-    const temp = new Date(dateInit)
-    temp.setDate(dateInit.getDate() + i)
-    showDates.push(moment(temp).utc(false).format('YYYY-MM-DD'))
-  }
-  return showDates
-}
-
-// ************
 
 export const getEventsGroupByDate = dataset => {
   const result = _.chain(dataset)

@@ -5,7 +5,7 @@ import moment from 'moment'
 import { data as dataFake } from '../data/calendar'
 import _ from 'lodash'
 import TimelineWeek from './TimelineWeek'
-import { getEventsGroupByDateAndShow } from './helpersCalendar'
+import { getEventsGroupByDateAndShow } from './helpers'
 import TimelineWeekTitle from './TimelineWeekTitle'
 
 const useStyles = makeStyles(theme => ({
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Example02 = () => {
+const Calendar = () => {
   const classes = useStyles()
 
   const [selectedDate, setSelectedDate] = useState(moment(new Date()))
@@ -109,4 +109,4 @@ const Example02 = () => {
   )
 }
 
-export default Example02
+export default Calendar
