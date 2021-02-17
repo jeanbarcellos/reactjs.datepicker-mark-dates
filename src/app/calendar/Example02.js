@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { DatePicker } from '@material-ui/pickers'
 import { makeStyles } from '@material-ui/core'
 import moment from 'moment'
-import { data } from '../data/calendar'
+import { data as dataFake } from '../data/calendar'
+import _ from 'lodash'
+import TimelineWeek from './TimelineWeek'
+import { getEventsGroupByDateAndShow } from './helpersCalendar'
+import TimelineWeekTitle from './TimelineWeekTitle'
 
 const useStyles = makeStyles(theme => ({
   dayWithDotContainer: {
@@ -12,50 +16,62 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     height: 0,
     width: 0,
-    border: '3px solid',
+    border: '4px solid',
     borderRadius: 4,
     borderColor: theme.palette.primary.main,
     right: '50%',
-    transform: 'translateX(2px)',
+    transform: 'translateX(4px)',
     top: '80%'
   }
 }))
 
-const Example02 = props => {
+const Example02 = () => {
   const classes = useStyles()
 
   const [selectedDate, setSelectedDate] = useState(moment(new Date()))
-  const [daysWithDot, setDaysWithDot] = useState([])
-  // console.log(daysWithDot)
+  const [collection, setCollection] = useState([])
+  const [daysWithDot, setdDaysWithDot] = useState([])
 
   useEffect(() => {
-    setDaysWithDot(
-      data.map(day => {
-        console.log(day)
-        return moment(day).format('YYYY-MM-DD')
-      })
-    )
+    const newCollection = dataFake.map(x => {
+      return {
+        ...x,
+        date: moment(x.date).format('YYYY-MM-DD')
+      }
+    })
+
+    setCollection(newCollection)
+    setdDaysWithDot(_.uniq(newCollection.map(x => x.date)))
   }, [])
+
+  const dataFiltered = getEventsGroupByDateAndShow(
+    collection,
+    selectedDate,
+    'day'
+  )
 
   const onChange = date => {
     console.log('onChange', date)
     setSelectedDate(date)
   }
 
+  const onMonthChange = date => {
+    setSelectedDate(date.clone().startOf('month').utc(false))
+  }
+
   const onOpenPicker = () => {
-    onPickerViewChange(selectedDate)
+    // onPickerViewChange(selectedDate)
+    console.log('onOpenPicker')
   }
 
   const onPickerViewChange = date => {
     console.log('onPickerViewChange', date)
-
     // const variables = {
     //   fromDate: date.clone().startOf('month').format('YYYY-MM-DD'),
     //   toDate: date.clone().endOf('month').format('YYYY-MM-DD')
     // }
-
-    // setDaysWithDot(
-    //   data.map(day => {
+    // setCollection(
+    //   dataFake.map(day => {
     //     console.log(day)
     //     return moment(day).format('YYYY-MM-DD')
     //   })
@@ -68,7 +84,7 @@ const Example02 = props => {
     dayInCurrentMonth,
     dayComponent
   ) => {
-    if (daysWithDot.includes(date.format('YYYY-MM-DD'))) {
+    if (daysWithDot.includes(date.format('YYYY-MM-DD')) && dayInCurrentMonth) {
       return (
         <div className={classes.dayWithDotContainer}>
           {dayComponent}
@@ -82,19 +98,24 @@ const Example02 = props => {
 
   return (
     <>
-      <div>
-        <DatePicker
-          orientation='landscape'
-          renderDay={renderDayInPicker}
-          onOpen={onOpenPicker}
-          onMonthChange={onPickerViewChange}
-          onYearChange={onPickerViewChange}
-          variant='static'
-          value={selectedDate}
-          onChange={onChange}
-          showTodayButton
-          disableToolbar
-        />
+      <div className='flex w-full'>
+        <div className='flex'>
+          <DatePicker
+            // orientation='landscape'
+            onOpen={onOpenPicker}
+            renderDay={renderDayInPicker}
+            onMonthChange={onMonthChange}
+            variant='static'
+            value={selectedDate}
+            onChange={onChange}
+            showTodayButton
+            // disableToolbar
+          />
+        </div>
+        <div className='flex-1 pl-8'>
+          <TimelineWeekTitle date={selectedDate} setDate={setSelectedDate} />
+          <TimelineWeek data={dataFiltered} />
+        </div>
       </div>
     </>
   )
